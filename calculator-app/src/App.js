@@ -6,6 +6,10 @@ import Operation from './components/operations/operation'
 import Action from './components/actions/action'
 
 function App() {
+  /*const showNumber = (newNumber)=>{
+    setNumber(newNumber);
+  }*/
+
   return (
     <div className="container">
       <div className="border">

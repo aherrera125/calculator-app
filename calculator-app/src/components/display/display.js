@@ -1,4 +1,3 @@
-import Num from '../numbers/number'
 function Display(){
 
     return(

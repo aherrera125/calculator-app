@@ -1,5 +1,3 @@
-import Disp from '../display/display'
-
 function Number(props){
     function handleClick(){
      
