@@ -1,6 +1,8 @@
+import './action.css'
+
 function Actions(props) {
     return (
-        <button action={props.act}></button>
+        <button>{props.act}</button>
     );
 }
 

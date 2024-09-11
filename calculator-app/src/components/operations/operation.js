@@ -1,6 +1,6 @@
 function Operations(props) {
     return (
-        <button op={props.typeOp}></button>
+        <button>{props.op}</button>
     );
 }
 
