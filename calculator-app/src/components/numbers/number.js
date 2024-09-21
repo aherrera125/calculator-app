@@ -1,6 +1,6 @@
 function Number(props){
     function handleClick(){
-     
+             
     }
 
     return(
