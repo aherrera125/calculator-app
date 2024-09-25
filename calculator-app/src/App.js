@@ -1,11 +1,14 @@
 import './App.css';
 import './styles/styles.css'
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useRef } from 'react';
 import Operation from './components/operations/operation'
 import Action from './components/actions/action'
 
 function App() {
   const [num, setNum] = useState();
+  let number = useRef();
+  var numA;
+  var numB;
 
   const handleSelectNum = (selectedNum) => {
     setNum(selectedNum);
@@ -15,15 +18,23 @@ function App() {
     setNum("");
   }
 
-  const handleAdd = (numA, numB) => {
-    setNum(numA + numB);
+  const handleAdd = () => {
+    numA = parseFloat(number.current.value);
+  }
+
+  const handleResult = () => {
+    numB = parseFloat(number.current.value);
+    setNum(numA+numB);
+    console.log(numA);
+    console.log(numB);
+    console.log(num);
   }
 
   return (
     <Fragment>
       <div className="border">
         <div>
-          <textarea readOnly value={num}></textarea>
+          <textarea readOnly value={num} ref={number}></textarea>
         </div>
         <div>
           <Action act="%"></Action>
@@ -53,7 +64,7 @@ function App() {
           <Action act="+/-"></Action>
           <button onClick={() => handleSelectNum('0')}>0</button>
           <Action act="."></Action>
-          <Action act="="></Action>
+          <button onClick={handleResult}>=</button>
         </div>
       </div>
     </Fragment>
