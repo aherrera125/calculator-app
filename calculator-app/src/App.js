@@ -1,29 +1,34 @@
 import './App.css';
 import './styles/styles.css'
-import { useState, Fragment, useEffect } from 'react';
+import { useState, Fragment } from 'react';
 import Operation from './components/operations/operation'
 import Action from './components/actions/action'
 
 function App() {
   const [num, setNum] = useState();
 
-  function handleSelectNum(selectedNum) {    
-    setNum(selectedNum);    
+  const handleSelectNum = (selectedNum) => {
+    setNum(selectedNum);
   }
 
-  useEffect(() => {    
-  }, [num]);
+  const handleClear = () => {
+    setNum("");
+  }
+
+  const handleAdd = (numA, numB) => {
+    setNum(numA + numB);
+  }
 
   return (
     <Fragment>
       <div className="border">
         <div>
-        <textarea readOnly value={num}></textarea>
+          <textarea readOnly value={num}></textarea>
         </div>
         <div>
           <Action act="%"></Action>
-          <Action act="CE"></Action>
-          <Action act="C"></Action>
+          <button onClick={handleClear}>CE</button>
+          <button onClick={handleClear}>C</button>
           <Operation op="/" typeOp="div"></Operation>
         </div>
         <div>
@@ -42,7 +47,7 @@ function App() {
           <button onClick={() => handleSelectNum('1')}>1</button>
           <button onClick={() => handleSelectNum('2')}>2</button>
           <button onClick={() => handleSelectNum('3')}>3</button>
-          <Operation op="+" typeOp="add"></Operation>
+          <button onClick={handleAdd}>+</button>
         </div>
         <div>
           <Action act="+/-"></Action>
