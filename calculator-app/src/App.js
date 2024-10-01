@@ -4,29 +4,33 @@ import { useState, Fragment, useRef } from 'react';
 import Action from './components/actions/action'
 
 function App() {
-  const [num, setNum] = useState();
+  const [num, setNum] = useState(0);
   const displayRef = useRef(null);
-  var firstNum;
-  var SecondNum;
+  var firstNum = 0;
+  var SecondNum = 0;
   var typeOp;
   var result;
 
   const handleSelectNum = (selectedNum) => {
-    setNum(selectedNum);
+    let currentValue = parseFloat(displayRef.current.value);
+    currentValue == 0 ? setNum(selectedNum) : setNum(num + selectedNum);
   }
 
   const handleTypeOp = (operation) => {
-    assignNumbers();
     typeOp = operation;
+    assignNumbers();
   }
 
   const handleClear = () => {
-    setNum("");
+    setNum(0);
   }
 
-  const assignNumbers=()=>{
-    !firstNum ? firstNum = parseFloat(displayRef.current.value) : firstNum = "";
-  }  
+  const assignNumbers = () => {
+    if (firstNum == 0) {
+      firstNum = parseFloat(displayRef.current.value);
+      //setNum(0);
+    }
+  }
 
   const handleResult = () => {
     SecondNum = parseFloat(displayRef.current.value);
@@ -34,23 +38,23 @@ function App() {
       case "add":
         result = parseFloat(firstNum) + parseFloat(SecondNum);
         setNum(result);
-        firstNum = "";
+        firstNum = 0;
         break;
       case "less":
         result = parseFloat(firstNum) - parseFloat(SecondNum);
         setNum(result);
-        firstNum = "";
+        firstNum = 0;
         break;
       case "mult":
         result = parseFloat(firstNum) * parseFloat(SecondNum);
         setNum(result);
-        firstNum = "";
+        firstNum = 0;
         break;
       case "div":
         if (parseFloat(SecondNum) !== 0) {
           result = parseFloat(firstNum) / parseFloat(SecondNum);
           setNum(result);
-          firstNum = "";
+          firstNum = 0;
         } else {
           alert("Connot divide by zero!");
           handleClear();
