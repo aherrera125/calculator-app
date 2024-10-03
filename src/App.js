@@ -2,18 +2,18 @@ import './App.css';
 import './styles/styles.css'
 import { useState, Fragment, useRef } from 'react';
 import Action from './components/actions/action'
+import handleResult from "./helpers/math/result_handler";
 
 function App() {
   const [num, setNum] = useState(0);
   const displayRef = useRef(null);
   var firstNum = 0;
-  var SecondNum = 0;
+  var secondNum = 0;
   var typeOp;
-  var result;
 
   const handleSelectNum = (selectedNum) => {
     let currentValue = parseFloat(displayRef.current.value);
-    currentValue == 0 ? setNum(selectedNum) : setNum(num + selectedNum);
+    currentValue === 0 ? setNum(selectedNum) : setNum(num + selectedNum);
   }
 
   const handleTypeOp = (operation) => {
@@ -26,40 +26,19 @@ function App() {
   }
 
   const assignNumbers = () => {
-    if (firstNum == 0) {
+    if (firstNum === 0 && displayRef.current) {
       firstNum = parseFloat(displayRef.current.value);
       //setNum(0);
     }
   }
 
-  const handleResult = () => {
-    SecondNum = parseFloat(displayRef.current.value);
-    switch (typeOp) {
-      case "add":
-        result = parseFloat(firstNum) + parseFloat(SecondNum);
-        setNum(result);
-        firstNum = 0;
-        break;
-      case "less":
-        result = parseFloat(firstNum) - parseFloat(SecondNum);
-        setNum(result);
-        firstNum = 0;
-        break;
-      case "mult":
-        result = parseFloat(firstNum) * parseFloat(SecondNum);
-        setNum(result);
-        firstNum = 0;
-        break;
-      case "div":
-        if (parseFloat(SecondNum) !== 0) {
-          result = parseFloat(firstNum) / parseFloat(SecondNum);
-          setNum(result);
-          firstNum = 0;
-        } else {
-          alert("Connot divide by zero!");
-          handleClear();
-        }
-        break;
+  const calculate = () => {
+    secondNum = parseFloat(displayRef.current.value);
+    if (handleResult(firstNum, secondNum, typeOp)) {
+      setNum(handleResult(firstNum, secondNum, typeOp));
+    } else {
+      alert("Connot divide by zero!");
+      handleClear();
     }
   }
 
@@ -97,7 +76,7 @@ function App() {
           <Action act="+/-"></Action>
           <button onClick={() => handleSelectNum('0')}>0</button>
           <Action act="."></Action>
-          <button onClick={handleResult}>=</button>
+          <button onClick={calculate}>=</button>
         </div>
       </div>
     </Fragment>
