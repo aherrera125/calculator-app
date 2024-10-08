@@ -6,41 +6,50 @@ import handleResult from "./helpers/math/result_handler";
 
 function App() {
   const [num, setNum] = useState(0);
-  const displayRef = useRef(null);
-  var firstNum = 0;
-  var secondNum = 0;
-  var typeOp;
+  const [firstNum, setFirstNum] = useState(null);
+  const [secondNum, setSecondNum] = useState(null);
+  const [typeOp, setTypeOp] = useState(null);
+
+  const displayRef = useRef(null);  
 
   const handleSelectNum = (selectedNum) => {
     let currentValue = parseFloat(displayRef.current.value);
-    currentValue === 0 ? setNum(selectedNum) : setNum(num + selectedNum);
-  }
+    setNum(currentValue === 0 ? selectedNum : num + selectedNum);
+  };
 
   const handleTypeOp = (operation) => {
-    typeOp = operation;
-    assignNumbers();
-  }
+    setTypeOp(operation);
+    if (displayRef.current && firstNum == null) {
+      setFirstNum(parseFloat(displayRef.current.value));      
+    }else{
+      setSecondNum(parseFloat(displayRef.current.value));      
+    }
+    handleClear();
+  };
 
   const handleClear = () => {
     setNum(0);
-  }
+  };
 
-  const assignNumbers = () => {
-    if (firstNum === 0 && displayRef.current) {
-      firstNum = parseFloat(displayRef.current.value);
-      //setNum(0);
+
+  useRef(()=>{
+    if (firstNum !== null && secondNum !== null && typeOp !== null) {
+      calculate();
     }
-  }
+  },[firstNum,secondNum,typeOp]);
 
   const calculate = () => {
-    secondNum = parseFloat(displayRef.current.value);
-    if (handleResult(firstNum, secondNum, typeOp)) {
-      setNum(handleResult(firstNum, secondNum, typeOp));
-    } else {
-      alert("Connot divide by zero!");
-      handleClear();
+    if (firstNum !== null && typeOp !== null) {
+      const secondNumValue = parseFloat(displayRef.current.value);
+      const result = handleResult(firstNum, secondNumValue, typeOp);
+      if (result !== undefined) {
+        setNum(result.toString());
+        setFirstNum(null);
+        setSecondNum(null);
+        setTypeOp(null);
+      }
     }
-  }
+  };
 
   return (
     <Fragment>
@@ -52,25 +61,25 @@ function App() {
           <Action act="%"></Action>
           <button onClick={handleClear}>CE</button>
           <button onClick={handleClear}>C</button>
-          <button onClick={handleTypeOp('div')}>/</button>
+          <button onClick={() => handleTypeOp('div')}>/</button>
         </div>
         <div>
           <button onClick={() => handleSelectNum('7')}>7</button>
           <button onClick={() => handleSelectNum('8')}>8</button>
           <button onClick={() => handleSelectNum('9')}>9</button>
-          <button onClick={handleTypeOp('mult')}>*</button>
+          <button onClick={() => handleTypeOp('mult')}>*</button>
         </div>
         <div>
           <button onClick={() => handleSelectNum('4')}>4</button>
           <button onClick={() => handleSelectNum('5')}>5</button>
           <button onClick={() => handleSelectNum('6')}>6</button>
-          <button onClick={handleTypeOp('less')}>-</button>
+          <button onClick={() => handleTypeOp('less')}>-</button>
         </div>
         <div>
           <button onClick={() => handleSelectNum('1')}>1</button>
           <button onClick={() => handleSelectNum('2')}>2</button>
           <button onClick={() => handleSelectNum('3')}>3</button>
-          <button onClick={handleTypeOp('add')}>+</button>
+          <button onClick={() => handleTypeOp('add')}>+</button>
         </div>
         <div>
           <Action act="+/-"></Action>
