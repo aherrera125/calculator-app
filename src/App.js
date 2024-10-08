@@ -24,7 +24,7 @@ function App() {
     }else{
       setSecondNum(parseFloat(displayRef.current.value));      
     }
-    handleClear();
+    handleClear();    
   };
 
   const handleClear = () => {
@@ -58,7 +58,7 @@ function App() {
           <textarea readOnly value={num} ref={displayRef}></textarea>
         </div>
         <div>
-          <Action act="%"></Action>
+          <button onClick={() => handleTypeOp('per')}>%</button>          
           <button onClick={handleClear}>CE</button>
           <button onClick={handleClear}>C</button>
           <button onClick={() => handleTypeOp('div')}>/</button>

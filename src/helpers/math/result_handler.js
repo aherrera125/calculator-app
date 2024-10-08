@@ -13,8 +13,11 @@ export default function result_handler(firstNum, secondNum, typeOp) {
         case "div":
             result = secondNum > 0 ? firstNum / secondNum : "Connot divide by zero!"
             break;
+        case "per":
+            result = (firstNum * secondNum) / 100;
+            break;
         default:
-            
+
             break;
     }
     return result;
